@@ -1,24 +1,25 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import NotesList from '../components/NotesList'
-import { getArchivedNotes } from '../utils/data'
+import { getArchivedNotes } from '../utils/network-data'
 
-export class Archived extends Component {
-  constructor(props) {
-    super(props)
+const Archived = () => {
+  const [notes, setNotes] = useState([])
 
-    this.state = {
-      notes: getArchivedNotes()
-    }
+  async function getArchivedNotesHandler () {
+    const { error, data } = await getArchivedNotes()
+    setNotes(data)
   }
+
+  useEffect(() => {
+    getArchivedNotesHandler()
+  }, [])
   
-  render() {
-    return (
-      <>
-        <h1>Archived Notes</h1>
-        <NotesList notes={this.state.notes} />
-      </>
-    )
-  }
+  return (
+    <>
+      <h1>Archived Notes</h1>
+      <NotesList notes={notes} />
+    </>
+  )
 }
 
 export default Archived

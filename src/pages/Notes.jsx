@@ -1,68 +1,50 @@
-import React, { Component } from 'react'
-import { useSearchParams } from 'react-router-dom';
-import { getActiveNotes, searchNotes } from '../utils/data'
-import PropTypes from 'prop-types'
+import React, { useContext, useEffect, useState } from 'react'
 import NotesList from '../components/NotesList'
+import UserContext from '../contexts/UserContext';
+import { useInput } from '../utils/custom-hooks';
+import { getActiveNotes } from '../utils/network-data';
+import Login from './Auth/Login';
 
 function NotesWrapper () {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const {user} = useContext(UserContext)
+  const [keyword, onKeywordChange] = useInput('')
+  const [notes, setNotes] = useState(null)
 
-  const title = searchParams.get('title')
+  async function getNotes() {
+    const { data } = await getActiveNotes()
+    setNotes(data)
+  }
 
-  function changeSearchParams(keyword) {
-    setSearchParams({ title: keyword })
+  useEffect(() => {
+    getNotes()
+  }, [user, notes])
+
+  if (!user) {
+    return (
+      <Login />
+    )
+  }
+
+  if (!notes) {
+    return (
+      <div>Loading...</div>
+    )
   }
   
   return (
-    <Notes
-      onSearch={changeSearchParams}
-      activeKeyword={title}
-    />
+    <>
+      <h1>Active Notes</h1>
+      <div className='search-bar-wrapper'>
+        <input
+          type="text"
+          placeholder="Search"
+          value={keyword}
+          onChange={onKeywordChange}
+        />
+      </div>
+      <NotesList notes={notes} />
+    </>
   )
-}
-
-export class Notes extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      notes: props.activeKeyword ? searchNotes(props.activeKeyword) : getActiveNotes(),
-      keyword: props.activeKeyword || ''
-    }
-
-    this.onSearch = this.onSearch.bind(this)
-  }
-
-  onSearch = (keyword) => {
-    this.setState({
-      notes: searchNotes(keyword),
-      keyword
-    })
-
-    this.props.onSearch(keyword)
-  }
-  
-  render() {
-    return (
-      <>
-        <h1>Active Notes</h1>
-        <div className='search-bar-wrapper'>
-          <input
-            type="text"
-            placeholder="Search"
-            value={this.state.keyword}
-            onChange={(e) => this.onSearch(e.target.value)}
-          />
-        </div>
-        <NotesList notes={this.state.notes} />
-      </>
-    )
-  }
-}
-
-Notes.propsType = {
-  changeSearchParams: PropTypes.func,
-  activeKeyword: PropTypes.string
 }
 
 export default NotesWrapper
