@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import { GrLogout } from "react-icons/gr";
 
 const LogoutButton = ({ user }) => {
-  // useEffect(() => {
-  //   console.log(user)
-  // })
-  
   function logoutHandler () {
     localStorage.removeItem('accessToken')
     window.location.reload()

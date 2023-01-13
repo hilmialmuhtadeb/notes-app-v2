@@ -30,8 +30,14 @@ function App() {
     setUserLogged()
   }, [])
   
+  useEffect(() => {
+    setIsDark(localStorage.getItem("isDark") === "true" ? true : false)
+    document.querySelectorAll('html')[0].classList.toggle("dark", isDark)
+  }, [isDark])
+  
   const toggleTheme = () => {
     setIsDark(!isDark);
+    localStorage.setItem("isDark", !isDark);
   };
 
   const themeContextValue = useMemo(() => {
@@ -53,7 +59,7 @@ function App() {
       <UserContext.Provider value={userContextValue}>
         <BrowserRouter>
           <Navbar />
-          <main>
+          <main className={`${isDark ? 'dark' : ''}`}>
               <Routes>
                 <Route path="/" element={<Notes />} />
                 <Route path="/notes/add" element={<AddNote />} />

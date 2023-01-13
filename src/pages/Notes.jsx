@@ -17,7 +17,16 @@ function NotesWrapper () {
 
   useEffect(() => {
     getNotes()
-  }, [user, notes])
+  }, [user])
+
+  useEffect(() => {
+    if (!keyword) {
+      getNotes()
+      return
+    }
+    const filteredNotes = notes.filter(note => note.title.includes(keyword))
+    setNotes(filteredNotes)
+  }, [keyword])
 
   if (!user) {
     return (

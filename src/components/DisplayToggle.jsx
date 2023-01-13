@@ -10,7 +10,7 @@ const DisplayToggle = () => {
       className={`display-toggle${isDark ? ' dark' : ''}`}
       onClick={toggleTheme}
     >
-      { isDark ? <BsFillMoonFill /> : <BsFillSunFill />}
+      { isDark ? <BsFillSunFill /> : <BsFillMoonFill /> }
     </button>
   )
 }

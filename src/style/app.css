@@ -53,6 +53,13 @@ table {
 html {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
+html.dark {
+  background-color: #444;
+  color: white;
+}
+html.dark a {
+  color: white;
+}
 
 nav {
   display: flex;
@@ -61,6 +68,10 @@ nav {
   padding: 1rem 4rem;
   background-color: #ebebeb;
   border-bottom: 1px solid #444;
+}
+html.dark nav {
+  background-color: #535353;
+  border-bottom: 2px solid gray;
 }
 nav a, .note-card a {
   color: black;
@@ -81,9 +92,14 @@ nav .nav__right a {
   margin-left: 1rem;
   cursor: pointer;
 }
-.display-toggle.dark {
+.display-toggle {
   background-color: #444;
   color: white;
+  border: 2px solid gray;
+}
+html.dark .display-toggle {
+  background-color: #ebebeb;
+  color: black;
 }
 .logout-button {
   display: inline-flex;
@@ -111,6 +127,11 @@ main > h1 {
   flex-grow: 1;
   padding: 0.5rem 1rem;
 }
+html.dark .search-bar-wrapper input {
+  background-color: #535353;
+  color: white;
+  border: 1px solid gray;
+}
 
 .notes-wrapper {
   margin: 2rem 0;
@@ -122,7 +143,15 @@ main > h1 {
   background-color: lightpink;
   padding: 1em;
 }
+html.dark .notes-wrapper.empty {
+  background-color: red;
+}
 
+html.dark .note-card {
+  background-color: #535353;
+  color: white;
+  box-shadow: none;
+}
 .note-card {
   padding: 1rem;
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
@@ -147,6 +176,9 @@ main > h1 {
   margin-bottom: 1rem;
   color: gray;
 }
+html.dark .note-card p:nth-child(2) {
+  color: rgb(184, 184, 184);
+}
 
 .detail-page-wrapper {
   position: relative;
@@ -159,6 +191,9 @@ main > h1 {
 .detail-page-wrapper p:nth-child(2) {
   margin-bottom: 2rem;
   color: gray;
+}
+.detail-page-wrapper p:nth-child(2) {
+  color: rgb(184, 184, 184);
 }
 .detail-page-wrapper .text-body {
   font-size: 1.2rem;
@@ -205,6 +240,8 @@ main > h1 {
   font-family: inherit;
   border: 0;
   width: 100%;
+  background-color: inherit;
+  color: inherit;
 }
 .add-note-page .title-input {
   font-size: 3rem;
@@ -222,6 +259,10 @@ main > h1 {
   margin: 4rem auto;
   padding: 2rem;
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2);
+}
+html.dark .auth-page-wrapper {
+  background-color: #535353;
+  color: white;
 }
 .auth-page-wrapper h1 {
   font-size: 2rem;
